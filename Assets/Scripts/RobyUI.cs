@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class RobyUI : MonoBehaviour
 {
+
     public GameObject dialog;
 
     void Start()

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Animations;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -8,11 +9,13 @@ public class PlayerMovement : MonoBehaviour
 
     #region COMPONENTS
     public Rigidbody2D rb { get; private set; }
+    public Animator anime { get; private set; }
     #endregion
 
     #region STATE PARAMETERS
     //플레이어 액션 제어
     public bool IsFacingRight { get; private set; }
+    public bool IsMove { get; private set; }
     public bool IsJumping { get; private set; }
     public bool IsWallJumping { get; private set; }
     public bool IsDashing { get; private set; }
@@ -67,11 +70,13 @@ public class PlayerMovement : MonoBehaviour
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+        anime = GetComponent<Animator>();
     }
 
     private void Start()
     {
         SetGravityScale(Data.gravityScale);
+        IsMove = false;
         IsFacingRight = true;
     }
 
@@ -92,7 +97,14 @@ public class PlayerMovement : MonoBehaviour
         _moveInput.y = Input.GetAxisRaw("Vertical");
 
         if (_moveInput.x != 0)
+        {
             CheckDirectionToFace(_moveInput.x > 0);
+        }
+        else
+        {
+            IsMove = false;
+            anime.SetBool("IsMove", IsMove);
+        }
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
@@ -155,6 +167,8 @@ public class PlayerMovement : MonoBehaviour
             if (!IsJumping)
                 _isJumpFalling = false;
         }
+
+        anime.SetBool("IsJumping", IsJumping);
 
         if (!IsDashing)
         {
@@ -324,6 +338,8 @@ public class PlayerMovement : MonoBehaviour
     #region RUN METHODS
     private void Run(float lerpAmount)
     {
+        IsMove = true;
+        anime.SetBool("IsMove", IsMove);
         //이동하고자 하는 방향과 속도 계산
         float targetSpeed = _moveInput.x * Data.runMaxSpeed;
         //Lerp()를 사용하여 방향과 속도의 변화를 부드럽게 제어
@@ -370,6 +386,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void Turn()
     {
+        IsMove = true;
         //플레이어의 스케일을 저장하고 플레이어를 x축으로 뒤집기 
         Vector3 scale = transform.localScale;
         scale.x *= -1;
@@ -407,6 +424,7 @@ public class PlayerMovement : MonoBehaviour
         #region Perform Wall Jump
         Vector2 force = new Vector2(Data.wallJumpForce.x, Data.wallJumpForce.y);
         force.x *= dir; //벽 반대방향으로 힘을 줌
+        Debug.Log(dir);
 
         if (Mathf.Sign(rb.velocity.x) != Mathf.Sign(force.x))
             force.x -= rb.velocity.x;
