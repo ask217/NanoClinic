@@ -442,6 +442,7 @@ public class PlayerMovement : MonoBehaviour
     //Dash Coroutine
     private IEnumerator StartDash(Vector2 dir)
     {
+        anime.SetTrigger("IsDash");
         LastOnGroundTime = 0;
         LastPressedDashTime = 0;
 
