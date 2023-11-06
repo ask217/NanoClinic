@@ -284,6 +284,27 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: MainObjects_0
+      rect:
+        serializedVersion: 2
+        x: 754
+        y: 336
+        width: 199
+        height: 61
+      alignment: 9
+      pivot: {x: 0.4851244, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4956231b044e5d340978997cf0b01cd0
+      internalID: 2072082971
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -297,6 +318,7 @@ TextureImporter:
     nameFileIdTable:
       Closet: 888072736
       Day_num: 1151540705
+      MainObjects_0: 2072082971
       box: -1938152162
       chair: 296856709
       day: 1113201624
